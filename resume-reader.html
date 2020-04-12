@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+    <title>Upload Files</title>
+    <style>
+table, th , td  {
+  border: 1px solid grey;
+  border-collapse: collapse;
+  padding: 5px;
+}
+table tr:nth-child(odd) {
+  background-color: #f1f1f1;
+}
+table tr:nth-child(even) {
+  background-color: #ffffff;
+}
+</style>
+  </head>
+
+  <body>
+
+    <div ng-app ="myApp" ng-controller = "myCtrl">
+    <input type="file" file-model="myFile"/>
+    <button ng-click="uploadFile()">upload </button>
+
+    <table>
+    <tr ng-repeat="(key, val) in data">
+      <td>{{ key }}</td>
+      <td>{{ val}}</td>
+    </tr>
+    </table>
+   <!--  <div>Name :
+    {{name}}
+    </div>
+     <div>Email :
+    {{email}}
+    </div>
+     <div>Mobile Number :
+    {{number}}
+    </div>
+     <div>Linkedin Profile :
+    {{link}}
+    </div>
+    </div> -->
+
+    <script >
+      var myApp = angular.module('myApp', []);
+
+myApp.directive('fileModel', ['$parse', function($parse) {
+  return {
+    restrict: 'A',
+    link: function(scope, element, attrs) {
+      var model = $parse(attrs.fileModel);
+      var modelSetter = model.assign;
+
+      element.bind('change', function() {
+        scope.$apply(function() {
+          modelSetter(scope, element[0].files[0]);
+        });
+      });
+    }
+  };
+}]);
+
+
+myApp.controller('myCtrl', function($scope, $http) {
+  $scope.uploadFile = function() {
+
+    var file = $scope.myFile;
+    var fd = new FormData();
+    fd.append('file', file);
+     console.log('file is ');
+    console.dir(file);
+    $http.post("http://127.0.0.1:5000/file-upload", fd, 
+   {
+        transformRequest: angular.identity,
+        headers: {'Content-Type': undefined},
+
+      }).then(function success(response){
+        $scope.name = response.data.name;
+        $scope.email = response.data.email;
+        $scope.number = response.data.number;
+        $scope.link = response.data.link;
+        $scope.data = response.data;
+        console.log(response.data);
+      }, function error(response){
+        console.log(response.status);
+      });
+      
+    // $scope.data = res.email;
+  };
+
+});
+
+    </script>
+  </body>
+</html>
