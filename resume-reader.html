@@ -75,7 +75,7 @@ myApp.controller('myCtrl', function($scope, $http) {
     fd.append('file', file);
      console.log('file is ');
     console.dir(file);
-    $http.post("http://127.0.0.1:5000/file-upload", fd, 
+    $http.post("https://api-resume-reader.herokuapp.com/file-upload", fd, 
    {
         transformRequest: angular.identity,
         headers: {'Content-Type': undefined},

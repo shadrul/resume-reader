@@ -21,6 +21,7 @@ from spacy.matcher import Matcher
 import re
 from docx2python import docx2python
 from docx import Document
+from flask_cors import CORS, cross_origin
 
 nlp = spacy.load('en_core_web_sm')
 
@@ -102,6 +103,7 @@ def extract_link(text):
 def demo():
 	return "hello"
 
+@cross_origin()
 @app.route('/file-upload', methods=['POST'])
 def upload_file():
 	# check if the post request has the file part
