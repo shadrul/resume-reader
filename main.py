@@ -118,10 +118,10 @@ def upload_file():
 		return resp
 	if file and allowed_file(file.filename):
 		filename = secure_filename(file.filename)
-		file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-		st = os.path.join(app.config['UPLOAD_FOLDER']) + '/' + filename
-		text = extraction(st)
-		images = extract_image(st)
+		# file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+		# st = os.path.join(app.config['UPLOAD_FOLDER']) + '/' + filename
+		text = extraction(file)
+		images = extract_image(file)
 		name = extract_name(text)
 		number = extract_mobile_number(text)
 		email = extract_email(text)
