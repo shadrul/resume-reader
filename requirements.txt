@@ -20,7 +20,7 @@ lxml==4.5.0
 MarkupSafe==1.1.1
 mime==0.1.0
 murmurhash==1.0.2
-numpy==1.18.2
+numpy==1.22.0
 pdfminer.six==20200402
 Pillow==7.1.1
 plac==1.1.3
